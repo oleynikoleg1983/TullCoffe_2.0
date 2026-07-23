@@ -19,7 +19,7 @@ export class UserService {
       id: 2,
       name: 'Марія',
       email: 'maria@example.com',
-      role: 'shop'
+      role: 'user'
     }
   ];
 

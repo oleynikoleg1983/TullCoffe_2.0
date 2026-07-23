@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavigationButtonsComponent } from './shared/components/navigation-buttons/navigation-buttons.component';
-import { CurrentUserService } from './shared/services/current-user.service';
+import { AppHeaderComponent } from './shared/components/app-header/app-header.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavigationButtonsComponent],
+  imports: [RouterOutlet, AppHeaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.less'
 })
-export class App implements OnInit {
-  constructor(private readonly currentUserService: CurrentUserService) {}
-
-  ngOnInit(): void {
-    this.currentUserService.loadCurrentUser(1);
-  }
-}
+export class App {}

@@ -1,4 +1,18 @@
 <section class="shop-page">
-  <h1>Магазин</h1>
-  <p>Тут відображаються товари та покупки.</p>
+  @if (products.length > 0) {
+    <ul class="product-list">
+      @for (product of products; track product.id) {
+        <li class="product-item">
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.description }}</p>
+
+          <div class="product-meta">
+            <strong class="product-price">{{ product.price }} UAH</strong>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p>Loading products...</p>
+  }
 </section>

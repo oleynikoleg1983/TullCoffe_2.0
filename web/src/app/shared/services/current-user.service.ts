@@ -10,7 +10,7 @@ export class CurrentUserService {
   private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
   private readonly fallbackUser: User = {
     id: 1,
-    name: 'Олег',
+    name: 'Oleg',
     email: 'oleg@example.com',
     role: 'admin'
   };
@@ -20,7 +20,7 @@ export class CurrentUserService {
   constructor(private readonly userApiService: UserApiService) {}
 
   loadCurrentUser(userId: number): void {
-    this.setCurrentUser(this.fallbackUser);
+    this.setCurrentUser(this.fallbackUser)
 
     this.userApiService.getUser(userId).subscribe({
       next: (user) => this.currentUserSubject.next(user),
