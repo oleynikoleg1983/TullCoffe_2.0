@@ -8,9 +8,6 @@ import { ProductApiService } from './product-api.service';
   providedIn: 'root'
 })
 export class ProductService {
-  private readonly productsSubject = new BehaviorSubject<Product[]>([]);
-  readonly products$: Observable<Product[]> = this.productsSubject.asObservable();
-
   private readonly fallbackProducts: Product[] = [
     { id: 1, name: 'Espresso', price: 45, description: 'Strong coffee with a rich aroma.' },
     { id: 2, name: 'Latte', price: 65, description: 'Smooth milk coffee with a soft taste.' },
@@ -32,6 +29,9 @@ export class ProductService {
     { id: 18, name: 'Mint Cooler', price: 50, description: 'Refreshing mint drink with iced finish.' },
     { id: 19, name: 'Berry Lemon Tea', price: 54, description: 'Fruit tea with a berry-lemon signature.' }
   ];
+
+  private readonly productsSubject = new BehaviorSubject<Product[]>(this.fallbackProducts);
+  readonly products$: Observable<Product[]> = this.productsSubject.asObservable();
 
   constructor(private readonly productApiService: ProductApiService) {}
 
