@@ -1,0 +1,16 @@
+@if (products.length > 0) {
+  <ul class="product-list">
+    @for (product of products; track product.id) {
+      <li class="product-item" (click)="selectProduct(product)">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+
+        <div class="product-meta">
+          <strong class="product-price">{{ product.price }} UAH</strong>
+        </div>
+      </li>
+    }
+  </ul>
+} @else {
+  <p class="empty-state">Loading products...</p>
+}

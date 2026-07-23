@@ -1,0 +1,27 @@
+<div class="modal-backdrop" (click)="close()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ product?.name ?? 'Product' }}</h2>
+      <button type="button" class="close-button" (click)="close()">Cancel</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="product-description">{{ product?.description }}</p>
+      <p class="product-price">Price: {{ product?.price }} UAH</p>
+
+      <label class="quantity-label" for="product-quantity">Quantity</label>
+      <input
+        id="product-quantity"
+        type="number"
+        min="1"
+        class="quantity-input"
+        [(ngModel)]="quantity"
+      />
+
+      <div class="modal-actions">
+        <button type="button" class="apply-button" (click)="apply()">Apply</button>
+        <button type="button" class="cancel-button" (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,7 +30,7 @@ export class ProductService {
     { id: 19, name: 'Berry Lemon Tea', price: 54, description: 'Fruit tea with a berry-lemon signature.' }
   ];
 
-  private readonly productsSubject = new BehaviorSubject<Product[]>(this.fallbackProducts);
+  private readonly productsSubject = new BehaviorSubject<Product[]>([]);
   readonly products$: Observable<Product[]> = this.productsSubject.asObservable();
 
   constructor(private readonly productApiService: ProductApiService) {}
