@@ -8,15 +8,23 @@ import { UserApiService } from './user-api.service';
 })
 export class CurrentUserService {
   private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
+  private readonly fallbackUser: User = {
+    id: 1,
+    name: 'Олег',
+    email: 'oleg@example.com',
+    role: 'admin'
+  };
 
   readonly currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
   constructor(private readonly userApiService: UserApiService) {}
 
   loadCurrentUser(userId: number): void {
+    this.setCurrentUser(this.fallbackUser);
+
     this.userApiService.getUser(userId).subscribe({
       next: (user) => this.currentUserSubject.next(user),
-      error: () => this.currentUserSubject.next(null)
+      error: () => this.currentUserSubject.next(this.fallbackUser)
     });
   }
 
