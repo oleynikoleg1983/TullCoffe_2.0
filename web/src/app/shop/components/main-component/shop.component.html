@@ -2,12 +2,5 @@
   <product-list [products]="products()"
     (selectedProduct)="openProductModal($event)"
   ></product-list>
-  @if (selectedProduct) {
-    <app-product-modal
-      [product]="selectedProduct"
-      [quantity]="selectedQuantity"
-      (closeModal)="closeProductModal()"
-      (applyChanges)="applyProductChanges($event)"
-    />
-  }
+  
 </section>

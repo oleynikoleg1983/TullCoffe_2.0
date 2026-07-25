@@ -1,27 +1,32 @@
-<div class="modal-backdrop" (click)="close()">
-  <div class="modal-card" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2>{{ product?.name ?? 'Product' }}</h2>
-      <button type="button" class="close-button" (click)="close()">Cancel</button>
-    </div>
+<div>
+    <h2 mat-dialog-title>{{ data.product.name }}</h2>
+    <mat-dialog-content>
+        <p>{{ data.product.description }}</p>
+        <p>
+            <strong>Price:</strong>
+            {{ data.product.price }} UAH
+        </p>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Quantity</mat-label>
 
-    <div class="modal-body">
-      <p class="product-description">{{ product?.description }}</p>
-      <p class="product-price">Price: {{ product?.price }} UAH</p>
-
-      <label class="quantity-label" for="product-quantity">Quantity</label>
-      <input
-        id="product-quantity"
-        type="number"
-        min="1"
-        class="quantity-input"
-        [(ngModel)]="quantity"
-      />
-
-      <div class="modal-actions">
-        <button type="button" class="apply-button" (click)="apply()">Apply</button>
-        <button type="button" class="cancel-button" (click)="close()">Cancel</button>
-      </div>
-    </div>
-  </div>
+            <input
+            matInput
+            type="number"
+            min="1"
+            [(ngModel)]="quantity">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button
+            mat-raised-button
+            color="primary"
+            (click)="apply()">
+            Apply
+        </button>
+        <button
+            mat-button
+            (click)="close()">
+            Cancel
+        </button>
+    </mat-dialog-actions>
 </div>

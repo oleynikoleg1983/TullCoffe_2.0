@@ -1,26 +1,46 @@
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+
+
 import { Product } from '../../../shared/models/product.model';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatDialogModule, 
+    MatFormFieldModule,
+    MatInputModule, 
+    MatButtonModule,
+    ],
   templateUrl: './product-modal.component.html',
   styleUrl: './product-modal.component.less'
 })
 export class ProductModalComponent {
-  @Input() product: Product | null = null;
-  @Input() quantity = 1;
-  @Output() closeModal = new EventEmitter<void>();
-  @Output() applyChanges = new EventEmitter<number>();
+
+  private dialogRef = inject(MatDialogRef<ProductModalComponent>);
+
+  data = inject(MAT_DIALOG_DATA) as {
+    product: Product;
+    quantity: number;
+  };
+
+  quantity = this.data.quantity;
 
   close(): void {
-    this.closeModal.emit();
+    this.dialogRef.close();
   }
 
   apply(): void {
-    this.applyChanges.emit(this.quantity);
+    this.dialogRef.close(this.quantity);
   }
 }

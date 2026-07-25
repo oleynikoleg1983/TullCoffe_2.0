@@ -7,6 +7,8 @@ import { ProductService } from '../../../shared/services/product.service';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
 import { ProductListComponent } from '../product-list/product-list.component';
 
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-shop',
   standalone: true,
@@ -19,30 +21,49 @@ export class ShopComponent implements OnInit {
   products = toSignal(this.productService.products$, {
     initialValue: []
   });
-  selectedProduct: Product | null = null;
-  selectedQuantity = 1;
-
-  constructor() {}
+  
+  //selectedQuantity = 1;
+// selectedProduct: Product | null = null;
+  constructor( private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.productService.loadProducts();
   }
 
+  /*
   openProductModal(product: Product): void {
     this.selectedProduct = product;
     this.selectedQuantity = 1;
   }
 
+    
+
   closeProductModal(): void {
     this.selectedProduct = null;
   }
 
-  applyProductChanges(quantity: number): void {
-    if (!this.selectedProduct) {
-      return;
-    }
+  
+*/
+  openProductModal(product: Product): void {
+    const dialogRef = this.dialog.open(ProductModalComponent, {
+      width: '500px',
+      data: {
+        product,
+        quantity: 1
+      }
+    });
 
-    console.log('Selected product:', this.selectedProduct.name, 'quantity:', quantity);
-    this.selectedProduct = null;
+    dialogRef.afterClosed().subscribe(quantity => {
+      if (quantity == null) {
+        return;
+      }
+
+      this.applyProductChanges(quantity, product);
+    });
+  }
+
+  applyProductChanges(quantity: number, product: Product): void {
+    console.log('Selected product:', product.name, 'quantity:', quantity);
+    //this.selectedProduct = null;
   }
 }
