@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { Product } from '../../../shared/models/product.model';
 import { ProductService } from '../../../shared/services/product.service';
 import { ProductModalComponent } from '../product-modal/product-modal.component';
@@ -7,23 +10,21 @@ import { ProductListComponent } from '../product-list/product-list.component';
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [ProductModalComponent, ProductListComponent],
+  imports: [ProductModalComponent, ProductListComponent, CommonModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.less'
 })
 export class ShopComponent implements OnInit {
-  products: Product[] = [];
+  private readonly productService = inject(ProductService);
+  products = toSignal(this.productService.products$, {
+    initialValue: []
+  });
   selectedProduct: Product | null = null;
   selectedQuantity = 1;
 
-  constructor(private readonly productService: ProductService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.productService.products$.subscribe((products) => {
-      console.log('Products loaded:', products);
-      this.products = products;
-    });
-
     this.productService.loadProducts();
   }
 

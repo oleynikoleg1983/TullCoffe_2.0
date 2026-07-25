@@ -24,10 +24,7 @@ export class ProductService {
     { id: 13, name: 'Hot Chocolate', price: 52, description: 'Rich cocoa drink with a velvety texture.' },
     { id: 14, name: 'Vanilla Frappe', price: 78, description: 'Iced blended coffee with vanilla notes.' },
     { id: 15, name: 'Caramel Latte', price: 72, description: 'Sweet caramel latte with a mellow finish.' },
-    { id: 16, name: 'Hazelnut Latte', price: 72, description: 'Nutty and smooth coffee with hazelnut aroma.' },
-    { id: 17, name: 'Lemonade', price: 48, description: 'Bright and refreshing citrus drink.' },
-    { id: 18, name: 'Mint Cooler', price: 50, description: 'Refreshing mint drink with iced finish.' },
-    { id: 19, name: 'Berry Lemon Tea', price: 54, description: 'Fruit tea with a berry-lemon signature.' }
+    { id: 16, name: 'Hazelnut Latte', price: 72, description: 'Nutty and smooth coffee with hazelnut aroma.' }
   ];
 
   private readonly productsSubject = new BehaviorSubject<Product[]>([]);

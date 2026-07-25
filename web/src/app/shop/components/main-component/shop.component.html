@@ -1,5 +1,5 @@
 <section class="shop-page">
-  <product-list [products]="products"
+  <product-list [products]="products()"
     (selectedProduct)="openProductModal($event)"
   ></product-list>
   @if (selectedProduct) {
