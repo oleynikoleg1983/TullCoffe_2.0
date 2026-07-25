@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [ProductModalComponent, ProductListComponent, CommonModule],
+  imports: [ProductListComponent, CommonModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.less'
 })
@@ -22,28 +22,14 @@ export class ShopComponent implements OnInit {
     initialValue: []
   });
   
-  //selectedQuantity = 1;
-// selectedProduct: Product | null = null;
+
   constructor( private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.productService.loadProducts();
   }
 
-  /*
-  openProductModal(product: Product): void {
-    this.selectedProduct = product;
-    this.selectedQuantity = 1;
-  }
-
-    
-
-  closeProductModal(): void {
-    this.selectedProduct = null;
-  }
-
   
-*/
   openProductModal(product: Product): void {
     const dialogRef = this.dialog.open(ProductModalComponent, {
       width: '500px',
@@ -64,6 +50,5 @@ export class ShopComponent implements OnInit {
 
   applyProductChanges(quantity: number, product: Product): void {
     console.log('Selected product:', product.name, 'quantity:', quantity);
-    //this.selectedProduct = null;
   }
 }
