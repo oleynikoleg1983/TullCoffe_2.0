@@ -1,6 +1,6 @@
 .product-list {
   list-style: none;
-  padding: 0;
+  padding: 5px 12px 5px 12px;
   margin: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -45,4 +45,25 @@
   margin: 0;
   color: #2f8d80;
   font-weight: 600;
+}
+
+@media (max-width: 550px) {
+  :host {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .product-list {
+    h1 {
+        font-size: 18px;
+    }
+    p {
+        font-size: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  }
 }

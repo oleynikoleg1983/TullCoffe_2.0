@@ -1,30 +1,55 @@
 <div>
     <h2 mat-dialog-title>{{ data.product.name }}</h2>
     <mat-dialog-content>
-        <p>{{ data.product.description }}</p>
         <p>
             <strong>Price:</strong>
-            {{ data.product.price }} UAH
+            {{ data.product.price }} <span>{{currency}}</span>
         </p>
-        <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Quantity</mat-label>
-
-            <input
-            matInput
-            type="number"
-            min="1"
-            [(ngModel)]="quantity">
-        </mat-form-field>
+        <div class="quantity-row">
+            <mat-form-field appearance="outline" class="quantity-input-width">
+                <mat-label>Quantity</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    min="1"
+                    [(ngModel)]="quantity">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="summa">
+                <mat-label>Summa</mat-label>
+                <input
+                    readonly
+                    matInput
+                    type="number"
+                    min="1"
+                    [(ngModel)]="summa">
+                <span matSuffix>{{currency}}</span>
+            </mat-form-field>
+            <!-- <div class="summa"> {{summa}}  <span>{{currency}}</span></div> -->
+            <button
+                mat-raised-button
+                class="increase-decrease-button"
+                (click)="increase()">
+                +
+            </button>
+            <button
+                mat-raised-button
+                 class="increase-decrease-button"
+                (click)="decrease()">
+                -
+            </button>
+        </div>
+        
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button
             mat-raised-button
-            color="primary"
+            class="apply"
             (click)="apply()">
             Apply
         </button>
         <button
             mat-button
+            class="close"
             (click)="close()">
             Cancel
         </button>

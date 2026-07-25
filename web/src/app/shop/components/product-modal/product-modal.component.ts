@@ -43,4 +43,20 @@ export class ProductModalComponent {
   apply(): void {
     this.dialogRef.close(this.quantity);
   }
+
+  increase(): void {
+    this.quantity = this.quantity + 1
+  }
+
+  decrease(): void {
+    this.quantity = (this.quantity > 1) ? this.quantity - 1 : this.quantity;
+  }
+
+  get summa() {
+    return this.quantity * this.data.product.price;
+  }
+
+  get currency() {
+    return 'UAH';
+  }
 }
