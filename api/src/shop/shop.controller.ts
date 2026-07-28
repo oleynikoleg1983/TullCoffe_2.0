@@ -1,4 +1,17 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
+import { ShopService } from './shop.service';
 
-@Controller('shop')
-export class ShopController {}
+class PurchaseProductDto {
+  id: number;
+  quantity: number;
+}
+
+@Controller('products')
+export class ShopController {
+  constructor(private readonly shopService: ShopService) {}
+
+  @Post('purchase')
+  purchaseProduct(@Body() dto: PurchaseProductDto) {
+    return this.shopService.purchaseProduct(dto.id, dto.quantity);
+  }
+}
