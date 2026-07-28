@@ -37,4 +37,8 @@ export class ProductService {
   getProducts(): Product[] {
     return this.productsSubject.value;
   }
+
+  purchaseProduct(id: number, quantity: number): Observable<void> {
+    return this.productApiService.purchaseProduct(id, quantity);
+  }
 }

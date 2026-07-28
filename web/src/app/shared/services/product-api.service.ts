@@ -12,4 +12,8 @@ export class ProductApiService {
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>('/api/products');
   }
+
+  purchaseProduct(id: number, quantity: number): Observable<void> {
+    return this.http.post<void>('/api/products/purchase', { id, quantity });
+  }
 }
