@@ -1,6 +1,9 @@
 :host {
   display: block;
+  background: #5bc0de;
   min-width: 400px;
+  border: 1px solid #f0f4f5;
+  border-radius: 28px;
 }
 
 
@@ -10,8 +13,10 @@ h2[mat-dialog-title] {
   padding-bottom: 22px;
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: #fff;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid #e0e0e0;
+ 
 }
 
 mat-dialog-content {
@@ -23,10 +28,16 @@ mat-dialog-content {
     margin: 0;
     line-height: 1.5;
     font-size: 20px;
+    color: #fff;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
   }
 
   strong {
-    color: #222;
+    color: #fff;
+  }
+
+  span {
+    color: #fff;
   }
 }
 
@@ -41,6 +52,8 @@ mat-dialog-content {
     position: relative;
     font-weight: 600;
     font-family: Arial;
+    color: #fff !important;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
   }
   .quantity-input-width {
     width: 110px;
@@ -58,9 +71,11 @@ mat-dialog-content {
   -moz-appearance: textfield;
   }
   input {
+    color: #fff !important;
     padding: 0 0 0 20px;
     font-size: 22px;
   }
+  
   .increase-decrease-button {
     width: 56px;
     height: 62px;
@@ -82,7 +97,6 @@ mat-dialog-content {
     }
   }
 }
-
     
 mat-dialog-actions {
   padding-top: 16px;
@@ -107,6 +121,13 @@ mat-dialog-actions {
     border-radius: 8px;
     height: 50px;
   }
+}
+
+::ng-deep .sell-product-dialog .mat-mdc-notch-piece  {
+    border-color: #fdfefe !important;
+}
+::ng-deep .sell-product-dialog .mdc-notched-outline__notch {
+    border-left: none !important;;
 }
 
 @media (max-width: 500px) {

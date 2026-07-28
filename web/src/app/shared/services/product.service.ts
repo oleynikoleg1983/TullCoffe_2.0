@@ -19,12 +19,7 @@ export class ProductService {
     { id: 8, name: 'Cold Brew', price: 73, description: 'Slow-steeped coffee with a smooth finish.' },
     { id: 9, name: 'Irish Coffee', price: 89, description: 'Coffee blended with whiskey and cream.' },
     { id: 10, name: 'Tea Latte', price: 58, description: 'A fragrant tea with steamed milk.' },
-    { id: 11, name: 'Chai Latte', price: 60, description: 'Spiced chai with a creamy finish.' },
-    { id: 12, name: 'Matcha Latte', price: 76, description: 'Green tea matcha with steamed milk.' },
-    { id: 13, name: 'Hot Chocolate', price: 52, description: 'Rich cocoa drink with a velvety texture.' },
-    { id: 14, name: 'Vanilla Frappe', price: 78, description: 'Iced blended coffee with vanilla notes.' },
-    { id: 15, name: 'Caramel Latte', price: 72, description: 'Sweet caramel latte with a mellow finish.' },
-    { id: 16, name: 'Hazelnut Latte', price: 72, description: 'Nutty and smooth coffee with hazelnut aroma.' }
+    { id: 11, name: 'Chai Latte', price: 60, description: 'Spiced chai with a creamy finish.' }
   ];
 
   private readonly productsSubject = new BehaviorSubject<Product[]>([]);

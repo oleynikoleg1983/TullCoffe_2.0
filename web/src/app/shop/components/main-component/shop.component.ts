@@ -33,6 +33,7 @@ export class ShopComponent implements OnInit {
   openProductModal(product: Product): void {
     const dialogRef = this.dialog.open(ProductModalComponent, {
       width: '500px',
+      panelClass: 'sell-product-dialog',
       data: {
         product,
         quantity: 1

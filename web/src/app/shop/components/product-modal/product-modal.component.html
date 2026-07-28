@@ -1,4 +1,4 @@
-<div>
+<div class="sell-product-modal-component">
     <h2 mat-dialog-title>{{ data.product.name }}</h2>
     <mat-dialog-content>
         <p>
@@ -9,6 +9,7 @@
             <mat-form-field appearance="outline" class="quantity-input-width">
                 <mat-label>Quantity</mat-label>
                 <input
+                    readonly
                     matInput
                     type="number"
                     min="1"
