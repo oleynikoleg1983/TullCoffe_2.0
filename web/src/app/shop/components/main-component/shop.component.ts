@@ -50,7 +50,7 @@ export class ShopComponent implements OnInit {
   }
 
   applyProductChanges(quantity: number, product: Product): void {
-    console.log('Selected product:', product.name, 'quantity:', quantity);
+    console.log('Selected product: - ', product.name, 'quantity:', quantity);
     this.productService.purchaseProduct(product.id, quantity).subscribe();
   }
 }
