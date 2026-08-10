@@ -23,11 +23,13 @@ services:
       PORT: 3000
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/cafe
       CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+      NEST_WATCH: "true"
     depends_on:
       - postgres
     ports:
       - "3000:3000"
-    command: npm run start:dev
+    command: sh -c "npm run build && npm run start:prod"
     volumes:
       - ./api:/app
       - /app/node_modules
