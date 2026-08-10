@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/models/product.model';
 
@@ -9,14 +9,11 @@ import { Product } from '../../../shared/models/product.model';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.less'
 })
-export class ProductListComponent implements OnInit { 
+export class ProductListComponent {
+  @Input() products: Product[] = [];
+  @Output() selectedProduct = new EventEmitter<Product>();
 
-     @Input() products: Product[] = [];
-     @Output() selectedProduct = new EventEmitter<Product>();
-
-     ngOnInit(): void {}
-
-     selectProduct(product: Product): void {
-        this.selectedProduct.emit(product);
-     }
+  selectProduct(product: Product): void {
+    this.selectedProduct.emit(product);
+  }
 }

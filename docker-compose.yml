@@ -18,13 +18,19 @@ services:
       dockerfile: Dockerfile.api
     container_name: cafe-api
     restart: unless-stopped
+    working_dir: /app
     environment:
       PORT: 3000
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/cafe
+      CHOKIDAR_USEPOLLING: "true"
     depends_on:
       - postgres
     ports:
       - "3000:3000"
+    command: npm run start:dev
+    volumes:
+      - ./api:/app
+      - /app/node_modules
 
   web:
     build:
@@ -32,10 +38,18 @@ services:
       dockerfile: Dockerfile.web
     container_name: cafe-web
     restart: unless-stopped
+    working_dir: /app
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
     depends_on:
       - api
     ports:
       - "4200:4200"
+    command: sh -c "npm run start -- --host 0.0.0.0 --port 4200 --poll 1000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
 
 volumes:
   postgres_data:
