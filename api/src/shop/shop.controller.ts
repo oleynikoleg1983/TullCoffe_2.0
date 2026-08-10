@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ShopService } from './shop.service';
 
 class PurchaseProductDto {
@@ -9,6 +9,11 @@ class PurchaseProductDto {
 @Controller('products')
 export class ShopController {
   constructor(private readonly shopService: ShopService) {}
+
+  @Get()
+  getProducts() {
+    return this.shopService.getProducts();
+  }
 
   @Post('purchase')
   purchaseProduct(@Body() dto: PurchaseProductDto) {
