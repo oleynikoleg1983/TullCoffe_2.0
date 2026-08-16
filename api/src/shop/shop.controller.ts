@@ -2,8 +2,8 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ShopService } from './shop.service';
 
 class PurchaseProductDto {
-  id: number;
-  quantity: number;
+  id!: number;
+  quantity!: number;
 }
 
 @Controller('products')

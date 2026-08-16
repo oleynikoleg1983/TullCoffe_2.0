@@ -3,20 +3,20 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeor
 @Entity('product_sales')
 export class ProductSaleEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: string;
+  id!: string;
 
   @Column({ name: 'product_id', type: 'bigint' })
-  productId: string;
+  productId!: string;
 
   @Column({ type: 'integer' })
-  quantity: number;
+  quantity!: number;
 
   @Column({ name: 'unit_price', type: 'numeric', precision: 10, scale: 2 })
-  unitPrice: string;
+  unitPrice!: string;
 
   @Column({ name: 'total_price', type: 'numeric', precision: 12, scale: 2 })
-  totalPrice: string;
+  totalPrice!: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
+  createdAt!: Date;
 }
