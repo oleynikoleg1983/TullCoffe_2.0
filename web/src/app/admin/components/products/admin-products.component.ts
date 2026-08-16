@@ -8,7 +8,7 @@ import { ProductService } from '../../../shared/services/product.service';
 import {
   CreateProductModalComponent,
   CreateProductPayload,
-} from './create-product-modal.component';
+} from './create-product-modal/create-product-modal.component';
 
 @Component({
   selector: 'app-admin-products',

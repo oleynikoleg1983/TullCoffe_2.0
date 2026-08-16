@@ -36,10 +36,10 @@ export class ProductApiService {
   }
 
   createProduct(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>('/api/products', product);
+    return this.http.post<Product>('/api/admin/products', product);
   }
 
   updateProduct(id: number, product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.put<Product>(`/api/products/${id}`, product);
+    return this.http.put<Product>(`/api/admin/products/${id}`, product);
   }
 }

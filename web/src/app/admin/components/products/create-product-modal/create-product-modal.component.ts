@@ -5,7 +5,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Product } from '../../../shared/models/product.model';
+import { Product } from '../../../../shared/models/product.model';
 
 export type CreateProductPayload = Omit<Product, 'id'>;
 
