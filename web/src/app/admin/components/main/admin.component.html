@@ -1,4 +1,11 @@
 <section class="admin-page">
   <h1>Адмін</h1>
-  <p>Тут можна управляти магазином.</p>
+
+  <nav class="admin-tabs">
+    <a routerLink="products" routerLinkActive="active" class="admin-tab">Товари</a>
+  </nav>
+
+  <div class="admin-content">
+    <router-outlet></router-outlet>
+  </div>
 </section>

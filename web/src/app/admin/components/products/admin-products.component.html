@@ -1,0 +1,124 @@
+<section class="products-subtab">
+  <div class="subtab-header">
+    <h2>Список товарів</h2>
+    <button type="button" class="create-btn" (click)="openCreateProductModal()">+ Додати товар</button>
+  </div>
+
+  @if (products().length > 0) {
+    <ul class="products-list">
+      @for (product of products(); track product.id) {
+        <li class="product-row">
+          @if (isEditing(product.id)) {
+            <input
+              class="product-input"
+              type="text"
+              [(ngModel)]="getDraft(product).name"
+              placeholder="Назва товару"
+            />
+            <input
+              class="product-input"
+              type="text"
+              [(ngModel)]="getDraft(product).description"
+              placeholder="Опис товару"
+            />
+            <input
+              class="product-input product-price-input"
+              type="number"
+              min="0"
+              step="0.01"
+              [(ngModel)]="getDraft(product).price"
+              placeholder="Ціна"
+            />
+
+            <label class="flag-field">
+              <input type="checkbox" [(ngModel)]="getDraft(product).isActive" />
+              is_active
+            </label>
+
+            <label class="flag-field">
+              <input type="checkbox" [(ngModel)]="getDraft(product).isDeleted" />
+              is_deleted
+            </label>
+
+            <input
+              class="product-input product-number-input"
+              type="number"
+              min="0"
+              [ngModel]="getDraft(product).categoryId"
+              (ngModelChange)="setDraftCategoryId(product, $event)"
+              placeholder="category_id"
+            />
+
+            <input
+              class="product-input product-number-input"
+              type="number"
+              min="0"
+              step="0.01"
+              [ngModel]="getDraft(product).userSalary"
+              (ngModelChange)="setDraftUserSalary(product, $event)"
+              placeholder="user_salary"
+            />
+
+            <input
+              class="product-input product-number-input"
+              type="number"
+              min="0"
+              step="1"
+              [(ngModel)]="getDraft(product).sortOrder"
+              placeholder="sort_order"
+            />
+          } @else {
+            <span class="product-name">{{ product.name }}</span>
+            <span class="product-description">{{ product.description }}</span>
+            <span class="product-price">{{ product.price }} UAH</span>
+            <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
+              <input type="checkbox" [checked]="product.isActive" disabled />
+              is_active
+            </label>
+            <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
+              <input type="checkbox" [checked]="product.isDeleted" disabled />
+              is_deleted
+            </label>
+            <span class="meta-chip">category_id: {{ product.categoryId ?? 'null' }}</span>
+            <span class="meta-chip">user_salary: {{ product.userSalary ?? 'null' }}</span>
+            <span class="meta-chip">sort_order: {{ product.sortOrder }}</span>
+          }
+
+          <div class="row-actions">
+            <button
+              type="button"
+              class="action-btn icon-btn edit-btn"
+              title="Редагувати"
+              aria-label="Редагувати"
+              (click)="startEditing(product)"
+            >
+              ✎
+            </button>
+            <button
+              type="button"
+              class="action-btn icon-btn save-btn"
+              title="Зберегти"
+              aria-label="Зберегти"
+              [disabled]="!isEditing(product.id) || !hasChanges(product) || isSaving(product.id)"
+              (click)="saveProduct(product)"
+            >
+              ✓
+            </button>
+            <button
+              type="button"
+              class="action-btn icon-btn cancel-btn"
+              title="Відмінити"
+              aria-label="Відмінити"
+              [disabled]="!isEditing(product.id) || isSaving(product.id)"
+              (click)="cancelEditing(product.id)"
+            >
+              ✕
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="empty-state">Товари відсутні або ще завантажуються...</p>
+  }
+</section>

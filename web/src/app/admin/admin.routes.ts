@@ -7,5 +7,19 @@ export const ADMIN_ROUTES: Routes = [
       import('./components/main/admin.component').then(
         (m) => m.AdminComponent
       ),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'products',
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import('./components/products/admin-products.component').then(
+            (m) => m.AdminProductsComponent
+          ),
+      },
+    ],
   },
 ];
