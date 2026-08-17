@@ -1,124 +1,121 @@
 <section class="products-subtab">
-  <div class="subtab-header">
-    <h2>Список товарів</h2>
-    <button type="button" class="create-btn" (click)="openCreateProductModal()">+ Додати товар</button>
-  </div>
+    <div class="subtab-header">
+        <h2>{{'Products list'}}</h2>
+        <button type="button" class="create-btn" (click)="openCreateProductModal()">+{{'Add product'}}</button>
+    </div>
 
-  @if (products().length > 0) {
+    @if (products().length > 0) {
     <ul class="products-list">
-      @for (product of products(); track product.id) {
+        @for (product of products(); track product.id) {
         <li class="product-row">
-          @if (isEditing(product.id)) {
-            <input
-              class="product-input"
-              type="text"
-              [(ngModel)]="getDraft(product).name"
-              placeholder="Назва товару"
-            />
-            <input
-              class="product-input"
-              type="text"
-              [(ngModel)]="getDraft(product).description"
-              placeholder="Опис товару"
-            />
-            <input
-              class="product-input product-price-input"
-              type="number"
-              min="0"
-              step="0.01"
-              [(ngModel)]="getDraft(product).price"
-              placeholder="Ціна"
-            />
+            <div class="product-body-row">
+                @if (isEditing(product.id)) {
+                <div class="product-field">
+                    <label for="product-name">{{'Product name'}}</label>
+                    <input id="product-name" class="product-input" type="text" [(ngModel)]="getDraft(product).name"
+                        title="{{'Product name'}}" placeholder="{{'Product name'}}" />
+                </div>
+                <div class="product-field">
+                    <label for="product-description">{{'Description'}}</label>
+                    <input id="product-description" 
+                        class="product-input" 
+                        type="text"
+                        [(ngModel)]="getDraft(product).description" 
+                        title="{{'Description'}}"
+                        placeholder="{{'Description'}}" />
+                </div>
 
-            <label class="flag-field">
-              <input type="checkbox" [(ngModel)]="getDraft(product).isActive" />
-              is_active
-            </label>
 
-            <label class="flag-field">
-              <input type="checkbox" [(ngModel)]="getDraft(product).isDeleted" />
-              is_deleted
-            </label>
+                <div class="product-field">
+                    <label for="product-price">{{'Price'}}</label>
+                    <input id="product-price" 
+                           class="product-input product-price-input"
+                            type="text" 
+                            title="{{'Price'}}" 
+                            [(ngModel)]="getDraft(product).price"
+                            placeholder="{{'Price'}}" />
+                </div>
+                <div class="product-field">
+                    <label for="product-user-salary">{{'User salary'}}</label>
+                    <input class="product-input product-number-input"
+                           id="product-user-salary"
+                           type="text"
+                           [ngModel]="getDraft(product).userSalary" 
+                           (ngModelChange)="setDraftUserSalary(product, $event)"
+                           placeholder="user_salary" />
+                </div>
+                
 
-            <input
-              class="product-input product-number-input"
-              type="number"
-              min="0"
-              [ngModel]="getDraft(product).categoryId"
-              (ngModelChange)="setDraftCategoryId(product, $event)"
-              placeholder="category_id"
-            />
+                <label class="flag-field">
+                    <input type="checkbox" [(ngModel)]="getDraft(product).isActive" />
+                    is_active
+                </label>
 
-            <input
-              class="product-input product-number-input"
-              type="number"
-              min="0"
-              step="0.01"
-              [ngModel]="getDraft(product).userSalary"
-              (ngModelChange)="setDraftUserSalary(product, $event)"
-              placeholder="user_salary"
-            />
+                <label class="flag-field">
+                    <input type="checkbox" [(ngModel)]="getDraft(product).isDeleted" />
+                    is_deleted
+                </label>
 
-            <input
-              class="product-input product-number-input"
-              type="number"
-              min="0"
-              step="1"
-              [(ngModel)]="getDraft(product).sortOrder"
-              placeholder="sort_order"
-            />
-          } @else {
-            <span class="product-name">{{ product.name }}</span>
-            <span class="product-description">{{ product.description }}</span>
-            <span class="product-price">{{ product.price }} UAH</span>
-            <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
-              <input type="checkbox" [checked]="product.isActive" disabled />
-              is_active
-            </label>
-            <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
-              <input type="checkbox" [checked]="product.isDeleted" disabled />
-              is_deleted
-            </label>
-            <span class="meta-chip">category_id: {{ product.categoryId ?? 'null' }}</span>
-            <span class="meta-chip">user_salary: {{ product.userSalary ?? 'null' }}</span>
-            <span class="meta-chip">sort_order: {{ product.sortOrder }}</span>
-          }
+                <input class="product-input product-number-input" type="number" min="0"
+                    [ngModel]="getDraft(product).categoryId" (ngModelChange)="setDraftCategoryId(product, $event)"
+                    placeholder="{{'Category'}}" />
 
-          <div class="row-actions">
-            <button
-              type="button"
-              class="action-btn icon-btn edit-btn"
-              title="Редагувати"
-              aria-label="Редагувати"
-              (click)="startEditing(product)"
-            >
-              ✎
-            </button>
-            <button
-              type="button"
-              class="action-btn icon-btn save-btn"
-              title="Зберегти"
-              aria-label="Зберегти"
-              [disabled]="!isEditing(product.id) || !hasChanges(product) || isSaving(product.id)"
-              (click)="saveProduct(product)"
-            >
-              ✓
-            </button>
-            <button
-              type="button"
-              class="action-btn icon-btn cancel-btn"
-              title="Відмінити"
-              aria-label="Відмінити"
-              [disabled]="!isEditing(product.id) || isSaving(product.id)"
-              (click)="cancelEditing(product.id)"
-            >
-              ✕
-            </button>
-          </div>
+                
+
+                <input class="product-input product-number-input" type="number" min="0" step="1"
+                    [(ngModel)]="getDraft(product).sortOrder" placeholder="sort_order" />
+                } @else {
+                <div class="product-field">
+                    <label>Product name</label>
+                    <span class="product-name">{{ product.name }}</span>
+                </div>
+                <div class="product-field">
+                    <label>Description</label>
+                    <span class="product-description">{{ product.description }}</span>
+                </div>
+                <div class="product-field">
+                    <label>Price</label>
+                    <span class="product-price">{{ product.price }}</span>
+                </div>
+                <div class="product-field">
+                    <label>User salary</label>
+                    <span class="product-user-salary">{{ product.userSalary ?? 'null' }}</span>
+                </div>
+                
+                <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
+                    <input type="checkbox" [checked]="product.isActive" disabled />
+                    is_active
+                </label>
+                <label class="flag-field readonly-flag" title="Доступно після натискання Редагувати">
+                    <input type="checkbox" [checked]="product.isDeleted" disabled />
+                    is_deleted
+                </label>
+                <span class="meta-chip">category_id: {{ product.categoryId ?? 'null' }}</span>
+              
+                <span class="meta-chip">sort_order: {{ product.sortOrder }}</span>
+                }
+            </div>
+
+            <div class="row-actions">
+                <button type="button" class="action-btn icon-btn edit-btn" title="{{'Edit'}}" aria-label="{{'Edit'}}"
+                    (click)="startEditing(product)">
+                    ✎
+                </button>
+                <button type="button" class="action-btn icon-btn save-btn" title="{{'Save'}}" aria-label="{{'Save'}}"
+                    [disabled]="!isEditing(product.id) || !hasChanges(product) || isSaving(product.id)"
+                    (click)="saveProduct(product)">
+                    ✓
+                </button>
+                <button type="button" class="action-btn icon-btn cancel-btn" title="{{'Cancel'}}"
+                    aria-label="{{'Cancel'}}" [disabled]="!isEditing(product.id) || isSaving(product.id)"
+                    (click)="cancelEditing(product.id)">
+                    ✕
+                </button>
+            </div>
         </li>
-      }
+        }
     </ul>
-  } @else {
-    <p class="empty-state">Товари відсутні або ще завантажуються...</p>
-  }
+    } @else {
+    <p class="empty-state">{{'Products are missing or still loading...'}}</p>
+    }
 </section>

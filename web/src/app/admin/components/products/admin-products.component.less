@@ -1,3 +1,6 @@
+:root {
+  --product-value-padding-left: 3px;
+}
 .subtab-header {
   display: flex;
   align-items: center;
@@ -30,7 +33,13 @@
 
 .product-row {
   display: grid;
-  grid-template-columns: minmax(140px, 1.2fr) minmax(220px, 2fr) minmax(110px, auto) auto;
+  grid-template-columns: minmax(140px, 1fr) 150px;
+}
+
+.product-body-row {
+  display: grid;
+ // grid-template-columns: minmax(140px, 1.2fr) minmax(220px, 2fr) minmax(110px, auto) auto;
+  grid-template-columns: minmax(140px, 1.2fr) minmax(220px, 2fr) 150px 100px;
   gap: 10px;
   align-items: center;
   padding: 10px 12px;
@@ -39,18 +48,59 @@
   background: #fbfcff;
 }
 
+.product-body-row input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px;
+  margin: 0;
+}
+
+.product-body-row input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+
 .product-name {
-  font-weight: 700;
+  height: 36px;
+  margin: 0;
   color: #1f2a44;
+  padding: 8px 0px 0px var(--product-value-padding-left, 3px);
+  font-family: Arial;
 }
 
 .product-description {
   color: #44506b;
+  height: 36px;
+  margin: 0;
+  padding: 8px 0px 0px var(--product-value-padding-left, 3px);
+  font-family: Arial;
 }
 
 .product-price {
-  color: #0d7c66;
-  font-weight: 700;
+  height: 36px;
+  margin: 0;
+  padding: 8px 0px 0px var(--product-value-padding-left, 3px);
+  font-family: Arial;
+}
+
+.product-user-salary {
+  height: 36px;
+  margin: 0;
+  padding: 8px 0px 0px var(--product-value-padding-left, 3px);
+  font-family: Arial;
+}
+
+.product-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
 }
 
 .product-input {
@@ -59,8 +109,10 @@
   box-sizing: border-box;
   border: 1px solid #d5d9e5;
   border-radius: 8px;
-  padding: 8px 10px;
+  //padding: 8px 10px;
+  padding: 8px 2px;
   font-size: 14px;
+  height: 36px;
 }
 
 .product-price-input {
