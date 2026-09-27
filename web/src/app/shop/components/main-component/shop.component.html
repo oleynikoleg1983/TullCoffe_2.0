@@ -1,6 +1,27 @@
 <section class="shop-page">
-  <product-list [products]="products()"
+  <div class="filters-bar">
+    <button
+      type="button"
+      class="category-filter-btn"
+      [class.active]="selectedCategoryId == null"
+      (click)="selectedCategoryId = null"
+    >
+      All categories
+    </button>
+
+    @for (category of activeCategories; track category.id) {
+      <button
+        type="button"
+        class="category-filter-btn"
+        [class.active]="selectedCategoryId === category.id"
+        (click)="selectedCategoryId = category.id"
+      >
+        {{ category.name }}
+      </button>
+    }
+  </div>
+
+  <product-list [products]="filteredProducts"
     (selectedProduct)="openProductModal($event)"
   ></product-list>
-  
 </section>

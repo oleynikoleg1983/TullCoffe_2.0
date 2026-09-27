@@ -1,0 +1,57 @@
+<section class="login-page">
+  <div class="ambient-shape ambient-shape-left" aria-hidden="true"></div>
+  <div class="ambient-shape ambient-shape-right" aria-hidden="true"></div>
+
+  <div class="login-card" role="region" aria-label="Sign in form">
+    <p class="eyebrow">TULL COFFEE</p>
+    <h1>Sign in</h1>
+    <p class="subtitle">Welcome back. Enter your credentials to continue.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label>
+        Email or username
+        <input
+          type="text"
+          formControlName="login"
+          autocomplete="username"
+          placeholder="name@domain.com or username"
+        />
+      </label>
+      @if (isFieldInvalid('login')) {
+        <p class="error">Please enter your email or username.</p>
+      }
+
+      <div class="password-field">
+        <span class="field-label">Password</span>
+        <div class="password-row">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="Your password"
+          />
+          <label class="show-password-toggle">
+            <input
+              type="checkbox"
+              class="show-password-checkbox"
+              [checked]="showPassword"
+              (change)="togglePasswordVisibility()"
+            />
+            Show password
+          </label>
+        </div>
+      </div>
+      @if (isFieldInvalid('password')) {
+        <p class="error">Password must be at least 6 characters.</p>
+      }
+
+      <button type="submit" class="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      @if (errorMessage) {
+        <p class="error global-error">{{ errorMessage }}</p>
+      }
+    </form>
+  </div>
+</section>

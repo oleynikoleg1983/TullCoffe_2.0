@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Product } from '../models/product.model';
+import { CategoryService } from './category.service';
 import { ProductApiService } from './product-api.service';
 
 interface LoadProductsOptions {
@@ -16,19 +17,46 @@ export class ProductService {
   private readonly productsSubject = new BehaviorSubject<Product[]>([]);
   readonly products$: Observable<Product[]> = this.productsSubject.asObservable();
 
-  constructor(private readonly productApiService: ProductApiService) {}
+  constructor(
+    private readonly productApiService: ProductApiService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   loadProducts(options: LoadProductsOptions = {}): void {
+    this.categoryService.loadCategories();
+
     this.productApiService
       .getProducts(options)
+      .pipe(
+        switchMap((products) =>
+          this.categoryService.categories$.pipe(
+            take(1),
+            map((categories) => this.filterActiveCategoryProducts(products, categories)),
+          ),
+        ),
+      )
       .subscribe({
         next: (products) => this.productsSubject.next(products),
-        error: () => this.productsSubject.next([])
+        error: () => this.productsSubject.next([]),
       });
   }
 
   getProducts(): Product[] {
     return this.productsSubject.value;
+  }
+
+  private filterActiveCategoryProducts(products: Product[], categories: Array<{ id: number; isActive: boolean }>): Product[] {
+    if (!categories.length) {
+      return products;
+    }
+
+    const activeCategoryIds = new Set(
+      categories.filter((category) => category.isActive).map((category) => category.id),
+    );
+
+    return products.filter(
+      (product) => product.categoryId == null || activeCategoryIds.has(product.categoryId),
+    );
   }
 
   purchaseProduct(id: number, quantity: number): Observable<void> {

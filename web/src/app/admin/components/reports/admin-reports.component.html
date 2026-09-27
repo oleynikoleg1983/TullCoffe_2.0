@@ -1,0 +1,97 @@
+<section class="reports-section">
+  <div class="reports-header">
+    <h2>Sales by user</h2>
+
+    <form class="period-form" (submit)="loadReport(); $event.preventDefault()">
+      <div class="field">
+        <label for="report-from">From</label>
+        <input id="report-from" type="date" [(ngModel)]="from" name="from" required />
+      </div>
+
+      <div class="field">
+        <label for="report-to">To</label>
+        <input id="report-to" type="date" [(ngModel)]="to" name="to" required />
+      </div>
+
+      <div class="field seller-filter">
+        <label for="report-seller">Seller</label>
+        <select id="report-seller" [(ngModel)]="selectedSeller" name="seller">
+          <option value="">All sellers</option>
+          @for (seller of sellerOptions; track seller.userId) {
+            <option [value]="seller.userName">{{ seller.userName }}</option>
+          }
+        </select>
+       </div>
+
+       <button class="load-btn" type="submit" [disabled]="loading || !from || !to">
+        {{ loading ? 'Loading...' : 'Show report' }}
+      </button>
+    </form>
+  </div>
+
+  @if (error) {
+    <p class="error-state">{{ error }}</p>
+  } @else if (!loading && filteredRows.length === 0) {
+    <p class="empty-state">No sales for the selected period.</p>
+  } @else {
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Email</th>
+          <th>Products sold</th>
+          <th>Sales amount</th>
+          <th>User salary</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of filteredRows; track row.userId) {
+          <tr>
+            <td>{{ row.userName }}</td>
+            <td>{{ row.email }}</td>
+            <td>{{ row.productsSold }}</td>
+            <td>{{ row.salesAmount | number: '1.2-2' }}</td>
+            <td>{{ row.salaryAmount | number: '1.2-2' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <button class="details-btn" type="button" (click)="toggleDetails()">
+    {{ showDetails ? 'Hide detailed report' : 'Show detailed report' }}
+  </button>
+
+  @if (showDetails) {
+    @if (detailsError) {
+      <p class="error-state">{{ detailsError }}</p>
+    } @else if (detailsLoading) {
+      <p class="empty-state">Loading detailed report...</p>
+    } @else if (filteredDetails.length === 0) {
+      <p class="empty-state">No sales for the selected period.</p>
+    } @else {
+      <table class="report-table details-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Quantity</th>
+            <th>Sales amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sale of filteredDetails; track sale.saleId) {
+            <tr>
+              <td>{{ sale.createdAt | date: 'dd.MM.yyyy HH:mm' }}</td>
+              <td>{{ sale.productName }}</td>
+              <td>{{ sale.sellerName }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.salesAmount | number: '1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</section>

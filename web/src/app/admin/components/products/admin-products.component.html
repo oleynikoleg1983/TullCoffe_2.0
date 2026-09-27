@@ -56,14 +56,27 @@
                     is_deleted
                 </label>
 
-                <input class="product-input product-number-input" type="number" min="0"
-                    [ngModel]="getDraft(product).categoryId" (ngModelChange)="setDraftCategoryId(product, $event)"
-                    placeholder="{{'Category'}}" />
-
-                
-
-                <input class="product-input product-number-input" type="number" min="0" step="1"
+                <div class="product-field">
+                    <label for="product-category">{{'Category'}}</label>
+                    <mat-form-field appearance="outline" class="category-select-field">
+                        <mat-select
+                            id="product-category"
+                            [ngModel]="getDraft(product).categoryId ?? null"
+                            (selectionChange)="setDraftCategoryId(product, $event.value)"
+                        >
+                            <mat-option [value]="null">{{'No category'}}</mat-option>
+                            @for (category of getActiveCategories(); track category.id) {
+                                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="product-field">
+                    <label for="product-category">{{'Order'}}</label>
+                    <input class="product-input product-number-input" type="number" min="0" step="1"
                     [(ngModel)]="getDraft(product).sortOrder" placeholder="sort_order" />
+                </div>
+                
                 } @else {
                 <div class="product-field">
                     <label>Product name</label>
@@ -90,9 +103,14 @@
                     <input type="checkbox" [checked]="product.isDeleted" disabled />
                     is_deleted
                 </label>
-                <span class="meta-chip">category_id: {{ product.categoryId ?? 'null' }}</span>
-              
-                <span class="meta-chip">sort_order: {{ product.sortOrder }}</span>
+                <div class="product-field">
+                    <label>Category</label>
+                    <span class="product-description">{{ getCategoryName(product) }}</span>
+                </div>
+                <div class="product-field">
+                    <label>Order</label>
+                    <span class="product-description">{{ product.sortOrder }}</span>
+                </div>
                 }
             </div>
 

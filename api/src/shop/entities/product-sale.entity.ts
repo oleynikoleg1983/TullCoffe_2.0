@@ -8,6 +8,9 @@ export class ProductSaleEntity {
   @Column({ name: 'product_id', type: 'bigint' })
   productId!: string;
 
+  @Column({ name: 'user_id', type: 'bigint', nullable: true })
+  userId!: string | null;
+
   @Column({ type: 'integer' })
   quantity!: number;
 

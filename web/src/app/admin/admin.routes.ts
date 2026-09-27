@@ -20,6 +20,20 @@ export const ADMIN_ROUTES: Routes = [
             (m) => m.AdminProductsComponent
           ),
       },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('./components/categories/admin-categories.component').then(
+            (m) => m.AdminCategoriesComponent
+          ),
+      },
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./components/reports/admin-reports.component').then(
+            (m) => m.AdminReportsComponent
+          ),
+      },
     ],
   },
 ];

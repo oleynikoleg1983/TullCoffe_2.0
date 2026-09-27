@@ -1,23 +1,28 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Product } from '../../../../shared/models/product.model';
+import { CategoryService } from '../../../../shared/services/category.service';
 
 export type CreateProductPayload = Omit<Product, 'id'>;
 
 @Component({
   selector: 'app-create-product-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './create-product-modal.component.html',
   styleUrl: './create-product-modal.component.less'
 })
-export class CreateProductModalComponent {
+export class CreateProductModalComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<CreateProductModalComponent>);
+  private readonly categoryService = inject(CategoryService);
+  readonly categories = toSignal(this.categoryService.categories$, { initialValue: [] });
 
   readonly draft: CreateProductPayload = {
     name: '',
@@ -29,6 +34,14 @@ export class CreateProductModalComponent {
     userSalary: null,
     sortOrder: 0,
   };
+
+  ngOnInit(): void {
+    this.categoryService.loadCategories();
+  }
+
+  getActiveCategories() {
+    return this.categories().filter((category) => category.isActive);
+  }
 
   close(): void {
     this.dialogRef.close();

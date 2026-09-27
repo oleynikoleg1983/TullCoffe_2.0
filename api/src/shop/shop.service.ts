@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { ProductSaleEntity } from './entities/product-sale.entity';
+import { CategoryEntity } from './entities/category.entity';
 
 export interface Product {
   id: number;
@@ -19,6 +20,22 @@ export interface Product {
   category_id?: number | null;
   user_salary?: number | null;
   sort_order?: number;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  isActive: boolean;
+}
+
+interface CreateCategoryPayload {
+  name: string;
+  isActive: boolean;
+}
+
+interface UpdateCategoryPayload {
+  name: string;
+  isActive: boolean;
 }
 
 interface UpdateProductPayload {
@@ -48,6 +65,24 @@ interface GetProductsOptions {
   includeDeleted?: boolean;
 }
 
+export interface SalesReportRow {
+  userId: number;
+  userName: string;
+  email: string;
+  productsSold: number;
+  salesAmount: number;
+  salaryAmount: number;
+}
+
+export interface SalesReportDetailRow {
+  saleId: number;
+  createdAt: string;
+  productName: string;
+  sellerName: string;
+  quantity: number;
+  salesAmount: number;
+}
+
 @Injectable()
 export class ShopService {
   constructor(
@@ -55,6 +90,8 @@ export class ShopService {
     private readonly productRepository: Repository<ProductEntity>,
     @InjectRepository(ProductSaleEntity)
     private readonly productSaleRepository: Repository<ProductSaleEntity>,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
   async getProducts(options: GetProductsOptions = {}): Promise<Product[]> {
@@ -94,7 +131,7 @@ export class ShopService {
     }));
   }
 
-  async purchaseProduct(id: number, quantity: number) {
+  async purchaseProduct(id: number, quantity: number, userId?: number) {
     if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new BadRequestException('Quantity must be a positive integer');
     }
@@ -116,6 +153,7 @@ export class ShopService {
 
     const sale = this.productSaleRepository.create({
       productId: product.id,
+      userId: userId == null ? null : String(userId),
       quantity,
       unitPrice: unitPrice.toFixed(2),
       totalPrice: totalPrice.toFixed(2),
@@ -130,6 +168,89 @@ export class ShopService {
       saleId: Number(savedSale.id),
       message: 'Purchase successful',
     };
+  }
+
+  async getSalesReport(from: string, to: string): Promise<SalesReportRow[]> {
+    if (!this.isDateOnly(from) || !this.isDateOnly(to) || from > to) {
+      throw new BadRequestException('A valid date range is required');
+    }
+
+    const fromDate = new Date(`${from}T00:00:00.000Z`);
+    const toDate = new Date(`${to}T00:00:00.000Z`);
+    toDate.setUTCDate(toDate.getUTCDate() + 1);
+
+    const rows = await this.productSaleRepository.query(
+      `
+        SELECT
+          u.id AS "userId",
+          u.name AS "userName",
+          u.email AS "email",
+          COALESCE(SUM(ps.quantity), 0)::int AS "productsSold",
+          COALESCE(SUM(ps.total_price), 0)::numeric(12, 2) AS "salesAmount",
+          COALESCE(SUM(ps.quantity * COALESCE(p.user_salary, 0)), 0)::numeric(12, 2) AS "salaryAmount"
+        FROM users u
+        INNER JOIN product_sales ps ON ps.user_id = u.id
+        INNER JOIN products p ON p.id = ps.product_id
+        WHERE ps.created_at >= $1 AND ps.created_at < $2
+        GROUP BY u.id, u.name, u.email
+        ORDER BY "salesAmount" DESC, u.name ASC
+      `,
+      [fromDate, toDate],
+    );
+
+    return rows.map((row: SalesReportRow) => ({
+      userId: Number(row.userId),
+      userName: row.userName,
+      email: row.email,
+      productsSold: Number(row.productsSold),
+      salesAmount: Number(row.salesAmount),
+      salaryAmount: Number(row.salaryAmount),
+    }));
+  }
+
+  async getSalesReportDetails(from: string, to: string): Promise<SalesReportDetailRow[]> {
+    if (!this.isDateOnly(from) || !this.isDateOnly(to) || from > to) {
+      throw new BadRequestException('A valid date range is required');
+    }
+
+    const fromDate = new Date(`${from}T00:00:00.000Z`);
+    const toDate = new Date(`${to}T00:00:00.000Z`);
+    toDate.setUTCDate(toDate.getUTCDate() + 1);
+
+    const rows = await this.productSaleRepository.query(
+      `
+        SELECT
+          ps.id AS "saleId",
+          ps.created_at AS "createdAt",
+          p.name AS "productName",
+          u.name AS "sellerName",
+          ps.quantity AS "quantity",
+          ps.total_price AS "salesAmount"
+        FROM product_sales ps
+        INNER JOIN products p ON p.id = ps.product_id
+        INNER JOIN users u ON u.id = ps.user_id
+        WHERE ps.created_at >= $1 AND ps.created_at < $2
+        ORDER BY ps.created_at DESC, ps.id DESC
+      `,
+      [fromDate, toDate],
+    );
+
+    return rows.map((row: SalesReportDetailRow) => ({
+      saleId: Number(row.saleId),
+      createdAt: row.createdAt,
+      productName: row.productName,
+      sellerName: row.sellerName,
+      quantity: Number(row.quantity),
+      salesAmount: Number(row.salesAmount),
+    }));
+  }
+
+  private isDateOnly(value: string): boolean {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return false;
+    }
+
+    return !Number.isNaN(new Date(`${value}T00:00:00.000Z`).getTime());
   }
 
   async createProduct(payload: CreateProductPayload): Promise<Product> {
@@ -274,4 +395,73 @@ export class ShopService {
       sort_order: updated.sortOrder,
     };
   }
+
+  async createCategory(payload: CreateCategoryPayload): Promise<Category> {
+      const normalizedName = payload.name?.trim();
+      if (!normalizedName) {
+        throw new BadRequestException('Product name is required');
+      }
+      if (typeof payload.isActive !== 'boolean') {
+        throw new BadRequestException('isActive must be boolean');
+      }
+
+      const created = this.categoryRepository.create({
+        siteId: '1',
+        name: normalizedName,
+        isActive: payload.isActive
+      });
+
+    const saved = await this.categoryRepository.save(created);
+
+    return {
+      id: Number(saved.id),
+      name: saved.name,
+      isActive: saved.isActive,
+    };
+
+  }
+
+  async updateCategory(id: number, payload: UpdateCategoryPayload): Promise<Category> {
+    const category = await this.categoryRepository.findOneBy({ id: String(id) });
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    const normalizedName = payload.name?.trim();
+    if (!normalizedName) {
+      throw new BadRequestException('Category name is required');
+    }
+    if (typeof payload.isActive !== 'boolean') {
+      throw new BadRequestException('isActive must be boolean');
+    }
+
+    category.name = normalizedName;
+    category.isActive = payload.isActive;
+
+    const updated = await this.categoryRepository.save(category);
+
+    return {
+      id: Number(updated.id),
+      name: updated.name,
+      isActive: updated.isActive,
+    };
+  }
+
+  async getCategories(): Promise<Category[]> {
+      const where: FindOptionsWhere<CategoryEntity> = {};
+      const categories = await this.categoryRepository.find({
+      where,
+      order: {
+        id: 'ASC'
+      },
+    });
+
+     return categories.map((category) => ({
+      id: Number(category.id),
+      name: category.name,
+      isActive: category.isActive
+    }));
+  }
+
+
 }

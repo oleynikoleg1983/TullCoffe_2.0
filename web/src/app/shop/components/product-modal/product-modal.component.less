@@ -1,9 +1,10 @@
 :host {
   display: block;
-  background: #5bc0de;
+  background: #ffffff;
   min-width: 400px;
-  border: 1px solid #f0f4f5;
-  border-radius: 28px;
+  border: 1px solid #d5d9e5;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(31, 42, 68, 0.12);
 }
 
 
@@ -13,9 +14,8 @@ h2[mat-dialog-title] {
   padding-bottom: 22px;
   font-size: 24px;
   font-weight: 600;
-  color: #fff;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid #e0e0e0;
+  color: #1f2a44;
+  border-bottom: 1px solid #dfe3ee;
  
 }
 
@@ -28,16 +28,15 @@ mat-dialog-content {
     margin: 0;
     line-height: 1.5;
     font-size: 20px;
-    color: #fff;
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
+    color: #44506b;
   }
 
   strong {
-    color: #fff;
+    color: #1f2a44;
   }
 
   span {
-    color: #fff;
+    color: #44506b;
   }
 }
 
@@ -52,8 +51,8 @@ mat-dialog-content {
     position: relative;
     font-weight: 600;
     font-family: Arial;
-    color: #fff !important;
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fbfcff;
+    color: #1f2a44 !important;
   }
   .quantity-input-width {
     width: 110px;
@@ -71,7 +70,7 @@ mat-dialog-content {
   -moz-appearance: textfield;
   }
   input {
-    color: #fff !important;
+    color: #1f2a44 !important;
     padding: 0 0 0 20px;
     font-size: 22px;
   }
@@ -81,7 +80,7 @@ mat-dialog-content {
     height: 62px;
     font-size: 35px;
     font-weight: bold;
-    background-color: #4b8295 !important;
+    background-color: #5dbcae !important;
     color: white !important;
     top: -7px;
     border-radius: 17px;
@@ -90,10 +89,12 @@ mat-dialog-content {
     border-radius: 6px;
     height: 58px;
     margin-bottom: 20px;
-    background-color: #f0e1574a;
+    background-color: #f4f8ff;
+    border: 1px solid #d5d9e5;
     span {
         padding: 10px;
         font-size: 22px;
+      color: #44506b;
     }
   }
 }
@@ -107,7 +108,8 @@ mat-dialog-actions {
   }
 
   .apply {
-    background: #4b8295;
+    background: #5dbcae;
+    border: 1px solid #5dbcae;
     color: #fff;
     font-size: 26px;
     border-radius: 8px;
@@ -115,8 +117,9 @@ mat-dialog-actions {
   }
 
   .close {
-    background: #808080b3;
-    color: white;
+    background: #f3f4f7;
+    border: 1px solid #d4d8e0;
+    color: #2d3551;
     font-size: 26px;
     border-radius: 8px;
     height: 50px;
@@ -124,7 +127,7 @@ mat-dialog-actions {
 }
 
 ::ng-deep .sell-product-dialog .mat-mdc-notch-piece  {
-    border-color: #fdfefe !important;
+  border-color: #d5d9e5 !important;
 }
 ::ng-deep .sell-product-dialog .mdc-notched-outline__notch {
     border-left: none !important;;

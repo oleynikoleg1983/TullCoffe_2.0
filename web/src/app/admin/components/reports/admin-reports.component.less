@@ -1,0 +1,143 @@
+:host {
+  display: block;
+}
+
+.reports-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reports-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.reports-header h2 {
+  margin: 0;
+}
+
+.period-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  color: #5f687d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.field input {
+  box-sizing: border-box;
+  border: 1px solid #d5d9e5;
+  border-radius: 8px;
+  padding: 8px 10px;
+  height: 36px;
+  color: #1f2a44;
+  font: inherit;
+}
+
+.field select {
+  box-sizing: border-box;
+  min-width: 150px;
+  border: 1px solid #d5d9e5;
+  border-radius: 8px;
+  padding: 8px 10px;
+  height: 36px;
+  color: #1f2a44;
+  background: #fff;
+  font: inherit;
+}
+
+.load-btn {
+  height: 36px;
+  border: 1px solid #0d7c66;
+  border-radius: 8px;
+  padding: 0 14px;
+  background: #0d7c66;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.load-btn:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.details-btn {
+  align-self: flex-start;
+  border: 1px solid #0d7c66;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: #fff;
+  color: #0d7c66;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e6e8ef;
+  background: #fbfcff;
+}
+
+.report-table th,
+.report-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #e6e8ef;
+  text-align: left;
+}
+
+.report-table th {
+  color: #5f687d;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.report-table td:last-child,
+.report-table th:last-child {
+  text-align: right;
+}
+
+.details-table {
+  margin-top: 4px;
+}
+
+.empty-state,
+.error-state {
+  margin: 0;
+  color: #6e7791;
+}
+
+.error-state {
+  color: #b42318;
+}
+
+@media (max-width: 760px) {
+  .reports-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .period-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .load-btn {
+    width: 100%;
+  }
+}

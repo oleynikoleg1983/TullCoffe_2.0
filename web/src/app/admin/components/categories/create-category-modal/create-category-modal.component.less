@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  min-width: 420px;
+}
+
+mat-dialog-content {
+  display: grid;
+  gap: 12px;
+  padding-top: 8px !important;
+  padding-bottom: 16px !important;
+}
+
+.flag-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.flag-field input[type='checkbox'] {
+  accent-color: #6e7a94;
+}
+
+mat-label {
+  color: #3a3d44;
+}
+
+
+::ng-deep .create-category-modal .mat-mdc-notch-piece {
+  border-color: #d5d9e5 !important;
+}
+
+::ng-deep .create-category-modal .mdc-notched-outline__notch {
+  border-left: none !important;
+}
+
+::ng-deep .create-category-modal .mdc-text-field--outlined {
+  background: #fbfcff;
+  border-radius: 8px;
+}
+
+::ng-deep .create-category-modal .mdc-text-field--focused .mat-mdc-notch-piece {
+  border-color: #6e7a94 !important;
+}
+
+mat-dialog-actions {
+  padding-top: 12px;
+  border-top: 1px solid #dfe3ee;
+}
+
+mat-dialog-actions button[mat-button] {
+  background: #f3f4f7;
+  border: 1px solid #d4d8e0;
+  color: #2d3551;
+  border-radius: 5px;
+}
+
+mat-dialog-actions button[mat-raised-button]:not(:disabled) {
+  background: #5dbcae !important;
+  border: 1px solid #5dbcae !important;
+  color: #fff !important;
+  border-radius: 5px;
+}
+
+mat-dialog-actions button[mat-raised-button]:disabled {
+  background: #8fd8cd  !important;
+  border: 1px solid #8fd8cd  !important;
+  color: #ffffff !important;
+  border-radius: 5px;
+}
+
+@media (max-width: 640px) {
+  :host {
+    min-width: auto;
+  }
+}

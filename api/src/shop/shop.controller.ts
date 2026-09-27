@@ -1,4 +1,6 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ShopService } from './shop.service';
 
 class PurchaseProductDto {
@@ -22,7 +24,13 @@ export class ShopController {
   }
 
   @Post('purchase')
-  purchaseProduct(@Body() dto: PurchaseProductDto) {
-    return this.shopService.purchaseProduct(dto.id, dto.quantity);
+  @UseGuards(JwtAuthGuard)
+  purchaseProduct(@Body() dto: PurchaseProductDto, @Req() request: Request & { user?: { sub: number } }) {
+    return this.shopService.purchaseProduct(dto.id, dto.quantity, request.user?.sub);
+  }
+
+  @Get('categories')
+  getCategories() {
+    return this.shopService.getCategories();
   }
 }

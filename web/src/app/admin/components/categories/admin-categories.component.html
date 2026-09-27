@@ -1,0 +1,72 @@
+<section class="categories-subtab">
+  <div class="subtab-header">
+    <h2>{{ 'Categories' }}</h2>
+    <button type="button" class="create-btn" (click)="openCreateCategoryModal()">
+      + Add category
+    </button>
+  </div>
+
+  @if (categories().length > 0) {
+    <ul class="categories-list">
+      @for (category of categories(); track category.id) {
+        <li class="category-row">
+          <div class="category-body-row">
+            @if (isEditing(category.id)) {
+              <div class="field">
+                <label for="category-name-{{ category.id }}">Name</label>
+                <input
+                  id="category-name-{{ category.id }}"
+                  class="product-input"
+                  type="text"
+                  [(ngModel)]="getDraft(category).name"
+                  placeholder="Category name"
+                />
+              </div>
+
+              <label class="flag-field">
+                <input type="checkbox" [(ngModel)]="getDraft(category).isActive" />
+                Active
+              </label>
+            } @else {
+              <div class="field">
+                <label>Name</label>
+                <span class="category-name">{{ category.name }}</span>
+              </div>
+
+              <label class="flag-field readonly-flag">
+                <input type="checkbox" [checked]="category.isActive" disabled />
+                Active
+              </label>
+            }
+          </div>
+
+          <div class="row-actions">
+            <button type="button" class="action-btn icon-btn edit-btn" title="Edit" (click)="startEditing(category)">
+              ✎
+            </button>
+            <button
+              type="button"
+              class="action-btn icon-btn save-btn"
+              title="Save"
+              [disabled]="!isEditing(category.id) || !hasChanges(category) || isSaving(category.id)"
+              (click)="saveCategory(category)"
+            >
+              ✓
+            </button>
+            <button
+              type="button"
+              class="action-btn icon-btn cancel-btn"
+              title="Cancel"
+              [disabled]="!isEditing(category.id) || isSaving(category.id)"
+              (click)="cancelEditing(category.id)"
+            >
+              ✕
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="empty-state">{{ 'Categories are missing or still loading...' }}</p>
+  }
+</section>

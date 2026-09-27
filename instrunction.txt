@@ -1,0 +1,4 @@
+Docer build
+    - docker compose up -d --build
+Docer rebuild api after update:
+    - docker compose up -d --build api

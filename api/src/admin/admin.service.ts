@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Product, ShopService } from '../shop/shop.service';
+import { Product, Category, SalesReportDetailRow, SalesReportRow, ShopService } from '../shop/shop.service';
 
 interface UpsertProductPayload {
 	name: string;
@@ -12,6 +12,12 @@ interface UpsertProductPayload {
 	sortOrder: number;
 }
 
+interface UpsertCategoryPayload {
+	name: string;
+	isActive: boolean;
+}
+
+
 @Injectable()
 export class AdminService {
 	constructor(private readonly shopService: ShopService) {}
@@ -22,5 +28,21 @@ export class AdminService {
 
 	updateProduct(id: number, payload: UpsertProductPayload): Promise<Product> {
 		return this.shopService.updateProduct(id, payload);
+	}
+
+    createCategory(payload: UpsertCategoryPayload): Promise<Category> {
+		return this.shopService.createCategory(payload);
+	}
+
+	updateCategory(id: number, payload: UpsertCategoryPayload): Promise<Category> {
+		return this.shopService.updateCategory(id, payload);
+	}
+
+	getSalesReport(from: string, to: string): Promise<SalesReportRow[]> {
+		return this.shopService.getSalesReport(from, to);
+	}
+
+	getSalesReportDetails(from: string, to: string): Promise<SalesReportDetailRow[]> {
+		return this.shopService.getSalesReportDetails(from, to);
 	}
 }

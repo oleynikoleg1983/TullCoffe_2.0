@@ -3,7 +3,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { Product } from '../../../shared/models/product.model';
+import { CategoryService } from '../../../shared/services/category.service';
 import { ProductService } from '../../../shared/services/product.service';
 import {
   CreateProductModalComponent,
@@ -13,14 +16,16 @@ import {
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.less'
 })
 export class AdminProductsComponent implements OnInit {
   private readonly productService = inject(ProductService);
+  private readonly categoryService = inject(CategoryService);
   private readonly dialog = inject(MatDialog);
   readonly products = toSignal(this.productService.products$, { initialValue: [] });
+  readonly categories = toSignal(this.categoryService.categories$, { initialValue: [] });
 
   private readonly drafts: Record<number, Product> = {};
   private readonly editing: Record<number, boolean> = {};
@@ -31,6 +36,7 @@ export class AdminProductsComponent implements OnInit {
       includeInactive: true,
       includeDeleted: true,
     });
+    this.categoryService.loadCategories();
   }
 
   startEditing(product: Product): void {
@@ -106,7 +112,8 @@ export class AdminProductsComponent implements OnInit {
   }
 
   setDraftCategoryId(product: Product, value: unknown): void {
-    this.getDraft(product).categoryId = this.toNullableNumber(value);
+    const normalized = value === '' || value === null || value === undefined ? null : Number(value);
+    this.getDraft(product).categoryId = Number.isFinite(normalized) ? normalized : null;
   }
 
   setDraftUserSalary(product: Product, value: unknown): void {
@@ -126,6 +133,19 @@ export class AdminProductsComponent implements OnInit {
 
       this.productService.createProduct(payload).subscribe();
     });
+  }
+
+  getCategoryName(product: Product): string {
+    if (product.categoryId == null) {
+      return 'No category';
+    }
+
+    const category = this.categories().find((item) => item.id === product.categoryId);
+    return category?.name ?? `Category #${product.categoryId}`;
+  }
+
+  getActiveCategories() {
+    return this.categories().filter((category) => category.isActive);
   }
 
   private toNullableNumber(value: unknown): number | null {

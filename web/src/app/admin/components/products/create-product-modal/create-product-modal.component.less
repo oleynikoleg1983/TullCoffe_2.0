@@ -1,12 +1,39 @@
 :host {
   display: block;
   min-width: 540px;
+  background: #ffffff;
+  border: 1px solid #d5d9e5;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(31, 42, 68, 0.12);
+}
+
+h2[mat-dialog-title] {
+  margin: 0;
+  padding-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2a44;
+  border-bottom: 1px solid #dfe3ee;
 }
 
 mat-dialog-content {
   display: grid;
   gap: 12px;
+  margin: 12px 0px 12px 0px;
   padding-top: 8px !important;
+}
+
+::ng-deep .create-product-modal .mat-mdc-notch-piece {
+  border-color: #d5d9e5 !important;
+}
+
+::ng-deep .create-product-modal .mdc-text-field--outlined {
+  background: #fbfcff;
+  border-radius: 8px;
+}
+
+::ng-deep .create-product-modal .mdc-text-field--focused .mat-mdc-notch-piece {
+  border-color: #6e7a94 !important;
 }
 
 .numbers-row {
@@ -25,6 +52,34 @@ mat-dialog-content {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  color: #44506b;
+}
+
+.flags-row input[type='checkbox'] {
+  accent-color: #6e7a94;
+}
+
+mat-label {
+  color: #3a3d44;
+}
+
+mat-dialog-actions {
+  padding-top: 12px;
+  border-top: 1px solid #dfe3ee;
+}
+
+mat-dialog-actions button[mat-button] {
+  background: #f3f4f7;
+  border: 1px solid #d4d8e0;
+  color: #2d3551;
+  border-radius: 5px;
+}
+
+mat-dialog-actions button[mat-raised-button] {
+  background: #5dbcae;
+  border: 1px solid #5dbcae;
+  color: #fff;
+  border-radius: 5px;
 }
 
 @media (max-width: 640px) {
